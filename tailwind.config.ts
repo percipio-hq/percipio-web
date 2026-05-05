@@ -32,6 +32,20 @@ const config: Config = {
         sans: ['var(--font-geist-sans)', 'sans-serif'],
         mono: ['var(--font-geist-mono)', 'monospace'],
       },
+      animation: {
+        'radar-sweep': 'radarSweep 10s linear infinite',
+        'rfid-pulse':  'rfidPulse 1.6s ease-out infinite',
+      },
+      keyframes: {
+        radarSweep: {
+          from: { transform: 'rotate(0deg)' },
+          to:   { transform: 'rotate(360deg)' },
+        },
+        rfidPulse: {
+          '0%':   { opacity: '0.8', transform: 'scale(0.95)' },
+          '100%': { opacity: '0',   transform: 'scale(1.3)' },
+        },
+      },
     },
   },
   plugins: [],

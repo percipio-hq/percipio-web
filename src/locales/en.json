@@ -1,0 +1,81 @@
+{
+  "brand": {
+    "name": "PERCIPIO",
+    "tagline": "ROOM AWARENESS SYSTEM",
+    "node_status": "NODE-01 · ONLINE"
+  },
+  "auth": {
+    "login": {
+      "eyebrow": "Sign in",
+      "title": "Welcome back to Percipio",
+      "subtitle": "Access your room awareness dashboard.",
+      "email_label": "Email",
+      "email_placeholder": "you@percipio.dev",
+      "password_label": "Password",
+      "password_placeholder": "••••••••",
+      "remember_me": "Remember this node",
+      "forgot_password": "Forgot password?",
+      "submit": "Sign in",
+      "divider": "or",
+      "rfid_button": "Tap RFID card to sign in",
+      "no_account": "New to Percipio?",
+      "request_access": "Request access →"
+    },
+    "register": {
+      "eyebrow": "Create account",
+      "title": "Join the Percipio mesh",
+      "subtitle": "Pair your dashboard with a Percipio node.",
+      "name_label": "Display name",
+      "name_placeholder": "Jacek",
+      "email_label": "Email",
+      "email_placeholder": "you@percipio.dev",
+      "password_label": "Password",
+      "password_placeholder": "At least 8 characters",
+      "invite_label": "Invite code",
+      "invite_placeholder": "A4F2-9B1C",
+      "invite_hint": "Issued by your room admin · 8 characters",
+      "terms_pre": "I agree to the",
+      "terms_link": "terms",
+      "terms_post": "and consent to motion data being recorded for this room.",
+      "submit": "Create account",
+      "has_account": "Already paired?",
+      "sign_in_link": "Sign in →"
+    },
+    "rfid": {
+      "prompt": "Tap your card on the reader",
+      "waiting": "Waiting for MFRC522…",
+      "recognized": "Card recognized",
+      "recognized_meta": "UID 0x4A2F8B · MIKE — signing in…",
+      "use_email": "Use email instead"
+    },
+    "validation": {
+      "required": "Required",
+      "invalid_email": "Invalid email format",
+      "password_min": "Min 6 characters",
+      "password_weak": "Too weak — add length, numbers, or symbols",
+      "invite_format": "Format: XXXX-XXXX",
+      "terms_required": "You must accept"
+    },
+    "strength": {
+      "too_short": "Too short",
+      "weak": "Weak",
+      "okay": "Okay",
+      "strong": "Strong",
+      "excellent": "Excellent"
+    }
+  },
+  "radar": {
+    "node_id": "NODE-01 · LIVING ROOM",
+    "event_stream": "Event stream",
+    "firmware": "FIRMWARE v0.4.2 · ESP32",
+    "uptime": "UPTIME 04D 12H 38M",
+    "chip": "LD2450",
+    "frequency": "24 GHz",
+    "range": "R: 6.0m",
+    "sensor": {
+      "temperature": "Temperature",
+      "humidity": "Humidity",
+      "pressure": "Pressure"
+    }
+  }
+}

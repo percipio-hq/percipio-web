@@ -15,7 +15,7 @@ interface Props {
 
 export default function EnvChart({ readings }: Props) {
   const data = readings.map((r) => ({
-    time: r.created_at.toLocaleTimeString(),
+    time: r.created_at.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false }),
     temp: r.temperature,
     humidity: r.humidity,
     pressure: r.pressure,

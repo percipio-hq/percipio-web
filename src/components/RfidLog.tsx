@@ -27,7 +27,7 @@ export default function RfidLog({ events }: Props) {
         <tbody>
           {events.map((e, i) => (
             <tr key={i} className="border-b border-gray-800">
-              <td className="py-1 text-xs">{e.created_at.toLocaleTimeString()}</td>
+              <td className="py-1 text-xs">{e.created_at.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false })}</td>
               <td className="py-1">{e.card_name}</td>
               <td className="py-1 font-mono text-xs">{e.card_uid}</td>
               <td className={`py-1 font-semibold ${e.authorized ? "text-green-400" : "text-red-400"}`}>
