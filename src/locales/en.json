@@ -26,7 +26,7 @@
       "title": "Join the Percipio mesh",
       "subtitle": "Pair your dashboard with a Percipio node.",
       "name_label": "Display name",
-      "name_placeholder": "Jacek",
+      "name_placeholder": "John",
       "email_label": "Email",
       "email_placeholder": "you@percipio.dev",
       "password_label": "Password",
@@ -54,7 +54,9 @@
       "password_min": "Min 6 characters",
       "password_weak": "Too weak — add length, numbers, or symbols",
       "invite_format": "Format: XXXX-XXXX",
-      "terms_required": "You must accept"
+      "terms_required": "You must accept",
+      "invalid_credentials": "Invalid email or password",
+      "register_failed": "Failed to create account. Try again."
     },
     "strength": {
       "too_short": "Too short",

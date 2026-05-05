@@ -9,9 +9,10 @@ import TextInput from '@/components/ui/TextInput'
 import { Icons } from '@/components/ui/icons'
 import t from '@/lib/i18n'
 import PasswordStrength, { scorePassword } from './PasswordStrength'
+import { useAuth } from '@/context/AuthContext'
 
 interface Errors {
-  name?: string; email?: string; password?: string; invite?: string; terms?: string
+  name?: string; email?: string; password?: string; invite?: string; terms?: string; form?: string
 }
 
 function validate(name: string, email: string, password: string, invite: string, agreed: boolean): Errors {
@@ -29,6 +30,7 @@ function validate(name: string, email: string, password: string, invite: string,
 }
 
 export default function RegisterForm() {
+  const { register } = useAuth()
   const [name, setName]         = useState('')
   const [email, setEmail]       = useState('')
   const [password, setPassword] = useState('')
@@ -41,14 +43,19 @@ export default function RegisterForm() {
   const r = t.auth.register
   const strength = scorePassword(password)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     const next = validate(name, email, password, invite, agreed)
     setErrors(next)
     if (Object.keys(next).length) return
     setLoading(true)
-    // Firebase auth will go here
-    setTimeout(() => setLoading(false), 1400)
+    try {
+      await register(email, password, name)
+    } catch {
+      setErrors({ form: t.auth.validation.register_failed })
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -61,6 +68,10 @@ export default function RegisterForm() {
       </div>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        {errors.form && (
+          <p className="text-sm text-semantic-danger">{errors.form}</p>
+        )}
+
         <Field label={r.name_label} error={errors.name}>
           <TextInput
             value={name}
