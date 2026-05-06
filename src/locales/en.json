@@ -81,7 +81,7 @@
       "node": {
         "label":      "ACTIVE NODE",
         "name":       "NODE-01",
-        "location":   "Living room · ESP32",
+        "location":   "Classroom · ESP32",
         "rssi_label": "RSSI",
         "rssi_value": "-54 dBm"
       },
@@ -94,7 +94,7 @@
     },
     "topbar": {
       "breadcrumb":        "WORKSPACE / NODE-01",
-      "title":             "Living room · Overview",
+      "title":             "Classroom · Overview",
       "search_placeholder":"Search RFID UID, user, event…",
       "db_live":           "FIRESTORE · LIVE",
       "db_offline":        "DB · OFFLINE"
@@ -166,7 +166,7 @@
     }
   },
   "radar": {
-    "node_id": "NODE-01 · LIVING ROOM",
+    "node_id": "NODE-01 · CLASSROOM",
     "event_stream": "Event stream",
     "firmware": "FIRMWARE v0.4.2 · ESP32",
     "uptime": "UPTIME 04D 12H 38M",

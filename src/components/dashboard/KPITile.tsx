@@ -12,7 +12,7 @@ function Sparkline({ data, color }: SparklineProps) {
   const max = Math.max(...data)
   const range = max - min || 1
   const pts = data.map((d, i) => `${(i / (data.length - 1)) * w},${h - ((d - min) / range) * (h - 4) - 2}`).join(' ')
-  const id = `sg-${color.replace('#', '')}`
+  const id = `sg-${color.replace(/[^a-zA-Z0-9]/g, '_')}`
   return (
     <svg viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none" className="w-full h-full">
       <defs>
