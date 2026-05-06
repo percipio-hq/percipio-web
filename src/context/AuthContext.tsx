@@ -1,6 +1,15 @@
 "use client"
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react'
+import {
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  updateProfile,
+  signOut as firebaseSignOut,
+  type User,
+} from 'firebase/auth'
+import { auth } from '@/lib/firebase'
 
 export interface AuthUser {
   uid: string
@@ -18,29 +27,32 @@ interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | null>(null)
 
+function toAuthUser(u: User): AuthUser {
+  return { uid: u.uid, email: u.email!, displayName: u.displayName }
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Firebase: replace with onAuthStateChanged(auth, u => { setUser(u); setLoading(false) })
-    setLoading(false)
+    return onAuthStateChanged(auth, (u) => {
+      setUser(u ? toAuthUser(u) : null)
+      setLoading(false)
+    })
   }, [])
 
-  const signIn = async (email: string, _password: string) => {
-    // Firebase: await signInWithEmailAndPassword(auth, email, password)
-    setUser({ uid: 'mock-uid', email, displayName: email.split('@')[0] })
+  const signIn = async (email: string, password: string) => {
+    await signInWithEmailAndPassword(auth, email, password)
   }
 
-  const register = async (email: string, _password: string, displayName: string) => {
-    // Firebase: await createUserWithEmailAndPassword(auth, email, password)
-    //           await updateProfile(userCred.user, { displayName })
-    setUser({ uid: 'mock-uid', email, displayName })
+  const register = async (email: string, password: string, displayName: string) => {
+    const cred = await createUserWithEmailAndPassword(auth, email, password)
+    await updateProfile(cred.user, { displayName })
   }
 
   const signOut = async () => {
-    // Firebase: await firebaseSignOut(auth)
-    setUser(null)
+    await firebaseSignOut(auth)
   }
 
   return (
