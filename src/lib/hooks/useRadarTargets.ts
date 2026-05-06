@@ -19,7 +19,8 @@ export function useRadarTargets() {
       (snap) => {
         if (snap.empty) return;
         const data = snap.docs[0].data();
-        setTargets(data.targets ?? []);
+        const raw: { x: number; y: number; speed: number }[] = data.targets ?? [];
+        setTargets(raw.map((t) => ({ x: t.x / 1000, y: t.y / 1000, speed: t.speed })));
         setTargetCount(data.target_count ?? 0);
       },
       () => setError(true),

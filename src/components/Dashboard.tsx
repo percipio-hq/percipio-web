@@ -24,7 +24,7 @@ export default function Dashboard() {
         <div className="flex items-center gap-4">
           <StatusBar peopleCount={targetCount} wifiOk={true} dbOk={dbOk} />
           <div className="flex items-center gap-3 text-sm text-gray-400">
-            <span>{user?.email}</span>
+            <span>{user?.displayName ?? user?.email}</span>
             <button
               onClick={signOut}
               className="text-gray-500 hover:text-white transition-colors cursor-pointer bg-transparent border-none"

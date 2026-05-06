@@ -52,7 +52,11 @@
       "password_weak": "Too weak — add length, numbers, or symbols",
 "terms_required": "You must accept",
       "invalid_credentials": "Invalid email or password",
-      "register_failed": "Failed to create account. Try again."
+      "register_failed": "Failed to create account. Try again.",
+      "email_in_use": "This email is already registered.",
+      "weak_password": "Password must be at least 6 characters.",
+      "operation_not_allowed": "Email sign-in is not enabled — check Firebase Console.",
+      "invalid_email_firebase": "Invalid email address."
     },
     "strength": {
       "too_short": "Too short",

@@ -48,8 +48,16 @@ export default function RegisterForm() {
     setLoading(true)
     try {
       await register(email, password, name)
-    } catch {
-      setErrors({ form: t.auth.validation.register_failed })
+    } catch (err: unknown) {
+      const code = (err as { code?: string })?.code
+      const l = t.auth.validation
+      const msg: Record<string, string> = {
+        'auth/email-already-in-use':  l.email_in_use,
+        'auth/weak-password':         l.weak_password,
+        'auth/operation-not-allowed': l.operation_not_allowed,
+        'auth/invalid-email':         l.invalid_email_firebase,
+      }
+      setErrors({ form: msg[code ?? ''] ?? l.register_failed })
     } finally {
       setLoading(false)
     }
@@ -113,8 +121,12 @@ export default function RegisterForm() {
         </Field>
 
         <label className={`flex items-start gap-2.5 cursor-pointer text-[13px] leading-[1.5] mt-1
-          ${errors.terms ? 'text-semantic-danger' : 'text-slate-400'}`}>
-          <Checkbox checked={agreed} onChange={setAgreed} error={!!errors.terms} />
+          ${errors.terms && !agreed ? 'text-semantic-danger' : 'text-slate-400'}`}>
+          <Checkbox
+            checked={agreed}
+            onChange={(v) => { setAgreed(v); if (v) setErrors(prev => ({ ...prev, terms: undefined })) }}
+            error={!!errors.terms && !agreed}
+          />
           <span>
             {r.terms_pre}{' '}
             <a href="#" className="text-teal-400 hover:underline underline-offset-4">{r.terms_link}</a>
