@@ -12,20 +12,18 @@ import PasswordStrength, { scorePassword } from './PasswordStrength'
 import { useAuth } from '@/context/AuthContext'
 
 interface Errors {
-  name?: string; email?: string; password?: string; invite?: string; terms?: string; form?: string
+  name?: string; email?: string; password?: string; terms?: string; form?: string
 }
 
-function validate(name: string, email: string, password: string, invite: string, agreed: boolean): Errors {
+function validate(name: string, email: string, password: string, agreed: boolean): Errors {
   const e: Errors = {}
   const l = t.auth.validation
-  if (!name)                                         e.name = l.required
-  if (!email)                                        e.email = l.required
-  else if (!/^[^@]+@[^@]+\.[^@]+$/.test(email))     e.email = l.invalid_email
-  if (!password)                                     e.password = l.required
-  else if (scorePassword(password).score < 2)        e.password = l.password_weak
-  if (!invite)                                       e.invite = l.required
-  else if (!/^[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(invite)) e.invite = l.invite_format
-  if (!agreed)                                       e.terms = l.terms_required
+  if (!name)                                     e.name = l.required
+  if (!email)                                    e.email = l.required
+  else if (!/^[^@]+@[^@]+\.[^@]+$/.test(email)) e.email = l.invalid_email
+  if (!password)                                 e.password = l.required
+  else if (scorePassword(password).score < 2)    e.password = l.password_weak
+  if (!agreed)                                   e.terms = l.terms_required
   return e
 }
 
@@ -35,7 +33,6 @@ export default function RegisterForm() {
   const [email, setEmail]       = useState('')
   const [password, setPassword] = useState('')
   const [showPass, setShowPass] = useState(false)
-  const [invite, setInvite]     = useState('')
   const [agreed, setAgreed]     = useState(false)
   const [loading, setLoading]   = useState(false)
   const [errors, setErrors]     = useState<Errors>({})
@@ -45,7 +42,7 @@ export default function RegisterForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    const next = validate(name, email, password, invite, agreed)
+    const next = validate(name, email, password, agreed)
     setErrors(next)
     if (Object.keys(next).length) return
     setLoading(true)
@@ -113,16 +110,6 @@ export default function RegisterForm() {
             }
           />
           {password && <PasswordStrength strength={strength} />}
-        </Field>
-
-        <Field label={r.invite_label} error={errors.invite} hint={!errors.invite ? r.invite_hint : undefined}>
-          <TextInput
-            value={invite}
-            onChange={v => setInvite(v.toUpperCase())}
-            placeholder={r.invite_placeholder}
-            icon={Icons.Key}
-            error={errors.invite}
-          />
         </Field>
 
         <label className={`flex items-start gap-2.5 cursor-pointer text-[13px] leading-[1.5] mt-1
