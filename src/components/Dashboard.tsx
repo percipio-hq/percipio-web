@@ -1,10 +1,10 @@
 "use client"
 
-import { useMemo } from 'react'
-import { useAuth } from '@/context/AuthContext'
+import { useMemo, useRef } from 'react'
 import { useSensorReadings } from '@/lib/hooks/useSensorReadings'
 import { useRadarTargets } from '@/lib/hooks/useRadarTargets'
 import { useRfidEvents } from '@/lib/hooks/useRfidEvents'
+import t from '@/lib/i18n'
 
 import Sidebar from '@/components/dashboard/Sidebar'
 import TopBar from '@/components/dashboard/TopBar'
@@ -18,10 +18,12 @@ import RadarView from '@/components/RadarView'
 import EnvChart from '@/components/EnvChart'
 import RfidLog from '@/components/RfidLog'
 
-const ExpandIcon = () => <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+const d = t.dashboard
+
+const ExpandIcon   = () => <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
 const DownloadIcon = () => <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3v12M6 11l6 6 6-6M4 21h16"/></svg>
-const FilterIcon = () => <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 5h18l-7 9v6l-4-2v-4z"/></svg>
-const CpuIcon = () => <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="6" y="6" width="12" height="12" rx="1.5"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/></svg>
+const FilterIcon   = () => <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 5h18l-7 9v6l-4-2v-4z"/></svg>
+const CpuIcon      = () => <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="6" y="6" width="12" height="12" rx="1.5"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/></svg>
 
 export default function Dashboard() {
   const { readings, error: sensorError } = useSensorReadings()
@@ -29,6 +31,25 @@ export default function Dashboard() {
   const { events, error: rfidError } = useRfidEvents(50)
 
   const dbOk = !sensorError && !radarError && !rfidError
+  const radarRef = useRef<HTMLDivElement>(null)
+
+  const handleFullscreen = () => radarRef.current?.requestFullscreen()
+
+  const downloadCSV = () => {
+    const rows = [
+      'Time,Temperature (°C),Humidity (%),Pressure (hPa)',
+      ...readings.map((r) =>
+        `${r.created_at.toISOString()},${r.temperature},${r.humidity},${r.pressure}`
+      ),
+    ]
+    const blob = new Blob([rows.join('\n')], { type: 'text/csv' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `percipio-env-${new Date().toISOString().slice(0, 10)}.csv`
+    a.click()
+    URL.revokeObjectURL(url)
+  }
 
   const avgTemp = useMemo(() => {
     if (!readings.length) return '—'
@@ -49,94 +70,89 @@ export default function Dashboard() {
       <Sidebar targetCount={targetCount} rfidToday={entriesToday} />
 
       <div className="flex flex-col flex-1 min-w-0">
-        <TopBar title="Living room · Overview" breadcrumb="WORKSPACE / NODE-01" dbOk={dbOk} />
+        <TopBar dbOk={dbOk} />
 
         <main className="flex-1 overflow-auto p-[22px] flex flex-col gap-4">
-          {/* KPI strip */}
           <div className="grid grid-cols-4 gap-3.5">
             <KPITile
-              label="Occupancy now"
+              label={d.kpi.occupancy}
               value={targetCount}
-              unit="people"
+              unit={d.kpi.unit_people}
               trend={targetCount > 0 ? 'up' : undefined}
               spark={[0, 1, 1, 2, targetCount]}
-              color="#1D9E75"
+              color="var(--color-brand-primary)"
             />
             <KPITile
-              label="Entries today"
+              label={d.kpi.entries}
               value={entriesToday}
-              unit="cards"
+              unit={d.kpi.unit_cards}
               spark={[0, 2, 3, entriesToday]}
-              color="#5DCAA5"
+              color="var(--color-brand-light)"
             />
             <KPITile
-              label="Avg temperature"
+              label={d.kpi.avg_temp}
               value={avgTemp}
-              unit="°C"
+              unit={d.kpi.unit_celsius}
               spark={tempSpark}
-              color="#EF9F27"
+              color="var(--color-warning)"
             />
             <KPITile
-              label="Node uptime"
+              label={d.kpi.uptime}
               value="99.8"
-              unit="%"
+              unit={d.kpi.unit_percent}
               spark={[100, 99.9, 100, 99.8, 99.9, 99.8]}
-              color="#378ADD"
+              color="var(--color-info)"
             />
           </div>
 
-          {/* Radar + Telegram */}
           <div className="grid gap-3.5 min-h-[380px]" style={{ gridTemplateColumns: '1.55fr 1fr' }}>
+            <div ref={radarRef} className="flex flex-col min-h-0 bg-navy-950">
+              <Card
+                title={d.map.title}
+                subtitle={d.map.subtitle}
+                action={<PillButton onClick={handleFullscreen}><ExpandIcon /> {d.map.btn_fullscreen}</PillButton>}
+                noPad
+              >
+                <RadarView targets={targets} />
+              </Card>
+            </div>
             <Card
-              title="Live room map"
-              subtitle="LD2450 · 24GHz · positions update in real-time"
-              action={<PillButton><ExpandIcon /> Fullscreen</PillButton>}
-              noPad
-            >
-              <RadarView targets={targets} />
-            </Card>
-
-            <Card
-              title="Telegram bot stream"
-              subtitle="@percipio_bot · push notifications"
-              action={<PillButton><FilterIcon /> Filter</PillButton>}
+              title={d.telegram.title}
+              subtitle={d.telegram.subtitle}
+              action={<PillButton><FilterIcon /> {d.telegram.btn_filter}</PillButton>}
             >
               <TelegramStream />
             </Card>
           </div>
 
-          {/* EnvChart + Device health */}
           <div className="grid gap-3.5 min-h-[300px]" style={{ gridTemplateColumns: '1.55fr 1fr' }}>
             <Card
-              title="Environment"
-              subtitle="BME280 · last 20 readings"
-              action={<PillButton><DownloadIcon /> CSV</PillButton>}
+              title={d.env.title}
+              subtitle={d.env.subtitle}
+              action={<PillButton onClick={downloadCSV}><DownloadIcon /> {d.env.btn_csv}</PillButton>}
             >
               <EnvChart readings={readings} />
             </Card>
-
             <Card
-              title="Device health"
-              subtitle="ESP32 peripheral status"
-              action={<PillButton><CpuIcon /> Diagnostics</PillButton>}
+              title={d.devices.title}
+              subtitle={d.devices.subtitle}
+              action={<PillButton><CpuIcon /> {d.devices.btn_diagnostics}</PillButton>}
             >
               <DeviceHealth />
             </Card>
           </div>
 
-          {/* RFID log + Occupancy */}
           <div className="grid gap-3.5" style={{ gridTemplateColumns: '1.55fr 1fr' }}>
             <Card
-              title="RFID access log"
-              subtitle="MFRC522 · today"
-              action={<PillButton><DownloadIcon /> Export</PillButton>}
+              title={d.rfid.title}
+              subtitle={d.rfid.subtitle}
+              action={<PillButton><DownloadIcon /> {d.rfid.btn_export}</PillButton>}
             >
               <RfidLog events={events} />
             </Card>
-
             <Card
-              title="Occupancy · 24h"
-              subtitle="RFID entries per hour"
+              title={d.occupancy.title}
+              subtitle={d.occupancy.subtitle}
               action={<PillButton><ExpandIcon /></PillButton>}
             >
               <OccupancyChart events={events} />

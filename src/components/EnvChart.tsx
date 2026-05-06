@@ -1,17 +1,20 @@
 "use client"
 import { useState } from 'react'
-import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, Area, AreaChart } from 'recharts'
+import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
+import t from '@/lib/i18n'
 import type { SensorReadingView } from '@/lib/hooks/useSensorReadings'
+
+const e = t.dashboard.env
 
 interface Props {
   readings: SensorReadingView[]
 }
 
 const TABS = [
-  { key: 'temperature', label: 'Temp',     unit: '°C',  color: '#EF9F27' },
-  { key: 'humidity',    label: 'Humidity', unit: '%',   color: '#378ADD' },
-  { key: 'pressure',    label: 'Pressure', unit: 'hPa', color: '#5DCAA5' },
-] as const
+  { key: 'temperature' as const, label: e.tab_temp,     unit: '°C',  color: 'var(--color-warning)' },
+  { key: 'humidity'    as const, label: e.tab_humidity, unit: '%',   color: 'var(--color-info)' },
+  { key: 'pressure'    as const, label: e.tab_pressure, unit: 'hPa', color: 'var(--color-brand-light)' },
+]
 
 type TabKey = typeof TABS[number]['key']
 
@@ -32,17 +35,17 @@ export default function EnvChart({ readings }: Props) {
   return (
     <div className="flex flex-col gap-3 flex-1">
       <div className="flex items-center gap-1.5">
-        {TABS.map((t) => (
+        {TABS.map((tb) => (
           <button
-            key={t.key}
-            onClick={() => setTab(t.key)}
+            key={tb.key}
+            onClick={() => setTab(tb.key)}
             className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[12px] cursor-pointer transition-colors border
-              ${tab === t.key
+              ${tab === tb.key
                 ? 'bg-navy-800 border-navy-700 text-slate-50'
                 : 'bg-transparent border-transparent text-slate-400 hover:text-slate-300'}`}
           >
-            <span className="w-2 h-2 rounded-sm" style={{ background: t.color }} />
-            {t.label}
+            <span className="w-2 h-2 rounded-sm" style={{ background: tb.color }} />
+            {tb.label}
           </button>
         ))}
         <div className="flex-1" />
@@ -54,23 +57,23 @@ export default function EnvChart({ readings }: Props) {
 
       <div className="flex-1 min-h-[160px]">
         {readings.length === 0 ? (
-          <div className="flex items-center justify-center h-full font-mono text-[11px] text-slate-600">NO DATA</div>
+          <div className="flex items-center justify-center h-full font-mono text-[11px] text-slate-600">{e.no_data}</div>
         ) : (
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={data} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
               <defs>
-                <linearGradient id={`area-${tab}`} x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor={conf.color} stopOpacity={0.3} />
-                  <stop offset="100%" stopColor={conf.color} stopOpacity={0} />
+                <linearGradient id={`env-area-${tab}`} x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%"   stopColor={conf.color} stopOpacity={0.3}/>
+                  <stop offset="100%" stopColor={conf.color} stopOpacity={0}/>
                 </linearGradient>
               </defs>
-              <XAxis dataKey="time" tick={{ fill: '#475569', fontSize: 9, fontFamily: "'Geist Mono', monospace" }} tickLine={false} axisLine={false} interval="preserveStartEnd" />
-              <YAxis tick={{ fill: '#475569', fontSize: 9, fontFamily: "'Geist Mono', monospace" }} tickLine={false} axisLine={false} />
+              <XAxis dataKey="time" tick={{ fill: 'var(--color-text-muted)', fontSize: 9, fontFamily: "'Geist Mono', monospace" }} tickLine={false} axisLine={false} interval="preserveStartEnd"/>
+              <YAxis                tick={{ fill: 'var(--color-text-muted)', fontSize: 9, fontFamily: "'Geist Mono', monospace" }} tickLine={false} axisLine={false}/>
               <Tooltip
-                contentStyle={{ background: '#1A2235', border: '1px solid #222D42', borderRadius: 6, color: '#F8FAFC', fontFamily: 'Geist Mono', fontSize: 11 }}
-                labelStyle={{ color: '#94A3B8' }}
+                contentStyle={{ background: 'var(--color-bg-elevated)', border: '1px solid var(--color-bg-border)', borderRadius: 6, color: 'var(--color-text-primary)', fontFamily: 'Geist Mono', fontSize: 11 }}
+                labelStyle={{ color: 'var(--color-text-secondary)' }}
               />
-              <Area type="monotone" dataKey="value" stroke={conf.color} strokeWidth={1.5} fill={`url(#area-${tab})`} dot={false} name={conf.label} />
+              <Area type="monotone" dataKey="value" stroke={conf.color} strokeWidth={1.5} fill={`url(#env-area-${tab})`} dot={false} name={conf.label}/>
             </AreaChart>
           </ResponsiveContainer>
         )}

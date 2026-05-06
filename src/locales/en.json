@@ -66,6 +66,105 @@
       "excellent": "Excellent"
     }
   },
+  "dashboard": {
+    "sidebar": {
+      "version": "v0.4.2",
+      "workspace": "WORKSPACE",
+      "nav": {
+        "overview": "Overview",
+        "radar":    "Radar",
+        "env":      "Environment",
+        "rfid":     "Access log",
+        "devices":  "Devices",
+        "settings": "Settings"
+      },
+      "node": {
+        "label":      "ACTIVE NODE",
+        "name":       "NODE-01",
+        "location":   "Living room · ESP32",
+        "rssi_label": "RSSI",
+        "rssi_value": "-54 dBm"
+      },
+      "menu": {
+        "log_out":        "Log out",
+        "delete_account": "Delete account",
+        "delete_confirm": "Delete your account permanently? This cannot be undone.",
+        "delete_reauth":  "For security, please sign out and sign in again before deleting your account."
+      }
+    },
+    "topbar": {
+      "breadcrumb":        "WORKSPACE / NODE-01",
+      "title":             "Living room · Overview",
+      "search_placeholder":"Search RFID UID, user, event…",
+      "db_live":           "FIRESTORE · LIVE",
+      "db_offline":        "DB · OFFLINE"
+    },
+    "kpi": {
+      "occupancy":    "Occupancy now",
+      "entries":      "Entries today",
+      "avg_temp":     "Avg temperature",
+      "uptime":       "Node uptime",
+      "unit_people":  "people",
+      "unit_cards":   "cards",
+      "unit_celsius": "°C",
+      "unit_percent": "%"
+    },
+    "map": {
+      "title":           "Live room map",
+      "subtitle":        "LD2450 · 24GHz · positions update in real-time",
+      "room_label":      "ROOM · 6.0 × 4.0 m",
+      "sensor_label":    "LD2450 · NODE-01",
+      "no_targets":      "NO TARGETS DETECTED",
+      "target_singular": "TARGET",
+      "target_plural":   "TARGETS",
+      "btn_fullscreen":  "Fullscreen"
+    },
+    "env": {
+      "title":        "Environment",
+      "subtitle":     "BME280 · last 20 readings",
+      "tab_temp":     "Temp",
+      "tab_humidity": "Humidity",
+      "tab_pressure": "Pressure",
+      "no_data":      "NO DATA",
+      "btn_csv":      "CSV"
+    },
+    "rfid": {
+      "title":        "RFID access log",
+      "subtitle":     "MFRC522 · today",
+      "filter_all":   "All",
+      "filter_auth":  "Authorized",
+      "filter_rej":   "Rejected",
+      "col_time":     "Time",
+      "col_uid":      "Card UID",
+      "col_user":     "User",
+      "col_result":   "Result",
+      "unknown":      "unknown",
+      "no_events":    "NO EVENTS",
+      "accepted":     "ACCEPTED",
+      "rejected":     "REJECTED",
+      "btn_export":   "Export"
+    },
+    "telegram": {
+      "title":       "Telegram bot stream",
+      "subtitle":    "@percipio_bot · push notifications",
+      "tag_push":    "PUSH",
+      "tag_alert":   "ALERT",
+      "tag_cmd":     "CMD",
+      "btn_filter":  "Filter"
+    },
+    "devices": {
+      "title":            "Device health",
+      "subtitle":         "ESP32 peripheral status",
+      "btn_diagnostics":  "Diagnostics",
+      "status_ok":        "OK",
+      "status_warn":      "WARN",
+      "status_err":       "ERR"
+    },
+    "occupancy": {
+      "title":    "Occupancy · 24h",
+      "subtitle": "RFID entries per hour"
+    }
+  },
   "radar": {
     "node_id": "NODE-01 · LIVING ROOM",
     "event_stream": "Event stream",
