@@ -34,6 +34,11 @@ body {
   transform-box: fill-box;
 }
 
+@keyframes liveDot {
+  0%   { opacity: 0.8; transform: scale(0.9); }
+  100% { opacity: 0;   transform: scale(1.5); }
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

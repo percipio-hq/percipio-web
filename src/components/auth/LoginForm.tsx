@@ -4,11 +4,13 @@ import Link from 'next/link'
 import { useState } from 'react'
 import Button from '@/components/ui/Button'
 import Checkbox from '@/components/ui/Checkbox'
+import Divider from '@/components/ui/Divider'
 import Field from '@/components/ui/Field'
 import TextInput from '@/components/ui/TextInput'
 import { Icons } from '@/components/ui/icons'
 import t from '@/lib/i18n'
 import { useAuth } from '@/context/AuthContext'
+import RfidPrompt from './RfidPrompt'
 
 interface Errors { email?: string; password?: string; form?: string }
 
@@ -30,6 +32,7 @@ export default function LoginForm() {
   const [remember, setRemember] = useState(true)
   const [loading, setLoading]   = useState(false)
   const [errors, setErrors]     = useState<Errors>({})
+  const [rfidMode, setRfidMode] = useState(false)
 
   const l = t.auth.login
 
@@ -47,6 +50,8 @@ export default function LoginForm() {
       setLoading(false)
     }
   }
+
+  if (rfidMode) return <RfidPrompt onCancel={() => setRfidMode(false)} />
 
   return (
     <>
@@ -109,6 +114,17 @@ export default function LoginForm() {
           {l.submit} <span className="flex">{Icons.Arrow}</span>
         </Button>
       </form>
+
+      <Divider label={l.divider} />
+
+      <button
+        type="button"
+        onClick={() => setRfidMode(true)}
+        className="flex items-center justify-center gap-2.5 w-full py-2.5 rounded-lg border border-navy-700 text-slate-400 text-[13px] hover:border-teal-700 hover:text-teal-400 transition-colors cursor-pointer bg-transparent"
+      >
+        <span className="flex">{Icons.Card}</span>
+        {l.rfid_button}
+      </button>
 
       <div className="pt-3 border-t border-navy-700 text-[13px] text-slate-400">
         {l.no_account}{' '}
