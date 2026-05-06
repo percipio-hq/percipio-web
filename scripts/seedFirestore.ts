@@ -1,11 +1,22 @@
 // Run: npx tsx scripts/seedFirestore.ts
 // Requires .env.local with Firebase credentials.
 
+// dotenv must run before any Firebase import — ES module imports are hoisted,
+// so we use dynamic import to guarantee env vars are set first.
 import { config } from "dotenv";
 config({ path: ".env.local" });
 
-import { collection, addDoc, Timestamp } from "firebase/firestore";
-import { db } from "../src/lib/firebase";
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, addDoc, Timestamp } from "firebase/firestore";
+
+const db = getFirestore(initializeApp({
+  apiKey:            process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain:        process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId:         process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket:     process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId:             process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+}));
 
 function minutesAgo(n: number) {
   return Timestamp.fromDate(new Date(Date.now() - n * 60_000));
