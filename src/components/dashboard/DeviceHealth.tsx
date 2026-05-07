@@ -32,7 +32,7 @@ const DEVICES: { name: string; role: string; status: Status; meta: string }[] = 
 
 export default function DeviceHealth() {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 overflow-auto flex-1 min-h-0">
       {DEVICES.map((device) => (
         <div key={device.name} className="flex items-center gap-2.5 px-2.5 py-2 bg-navy-800 border border-navy-700 rounded-md">
           <span className={`w-2 h-2 rounded-full flex-shrink-0 ${statusDotClass[device.status]}`} />

@@ -115,22 +115,6 @@ export default function Sidebar({ targetCount, rfidToday }: Props) {
 
       <div className="flex-1" />
 
-      <div className="bg-navy-800 border border-navy-700 rounded-lg p-3 flex flex-col gap-2">
-        <div className="font-mono text-[9px] text-slate-600 tracking-[1.5px]">{s.node.label}</div>
-        <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-teal-500 flex-shrink-0 shadow-[0_0_8px_theme(colors.teal.500)]" />
-          <div className="flex-1">
-            <div className="text-[13px] font-medium text-slate-50">{s.node.name}</div>
-            <div className="font-mono text-[10px] text-slate-400">{s.node.location}</div>
-          </div>
-          <span className="text-slate-600">{navIcons.chevron}</span>
-        </div>
-        <div className="flex justify-between font-mono text-[10px] text-slate-600 pt-1.5 border-t border-navy-700">
-          <span>{s.node.rssi_label}</span>
-          <span className="text-slate-400">{s.node.rssi_value}</span>
-        </div>
-      </div>
-
       <div ref={menuRef} className="relative">
         {menuOpen && (
           <div className="absolute bottom-full left-0 right-0 mb-1 bg-navy-800 border border-navy-700 rounded-lg overflow-hidden shadow-xl z-50">

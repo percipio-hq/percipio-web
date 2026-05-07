@@ -14,7 +14,7 @@ import PillButton from '@/components/dashboard/PillButton'
 import KPITile from '@/components/dashboard/KPITile'
 import DeviceHealth from '@/components/dashboard/DeviceHealth'
 import TelegramStream from '@/components/dashboard/TelegramStream'
-import OccupancyChart from '@/components/dashboard/OccupancyChart'
+import StatusBar from '@/components/StatusBar'
 import RadarView from '@/components/RadarView'
 import EnvChart from '@/components/EnvChart'
 import RfidLog from '@/components/RfidLog'
@@ -153,11 +153,10 @@ export default function Dashboard() {
               <RfidLog events={events} />
             </Card>
             <Card
-              title={d.occupancy.title}
-              subtitle={d.occupancy.subtitle}
-              action={<PillButton><ExpandIcon /></PillButton>}
+              title="Node status"
+              subtitle="WiFi · Firestore · occupancy"
             >
-              <OccupancyChart events={events} />
+              <StatusBar peopleCount={targetCount} wifiOk={true} dbOk={dbOk} />
             </Card>
           </div>
         </main>

@@ -4,7 +4,6 @@ import t from '@/lib/i18n'
 
 const tb = t.dashboard.topbar
 
-const SearchIcon   = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
 const BellIcon     = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
 const TelegramIcon = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 4L2 11l7 3 3 7 9-17z"/><path d="M9 14l4-4"/></svg>
 
@@ -30,15 +29,6 @@ export default function TopBar({ dbOk }: Props) {
       </div>
 
       <div className="flex-1" />
-
-      <div className="flex items-center gap-2 bg-navy-900 border border-navy-700 rounded-md px-3 py-1.5 w-[260px]">
-        <span className="text-slate-600 flex"><SearchIcon /></span>
-        <input
-          placeholder={tb.search_placeholder}
-          className="flex-1 bg-transparent border-none outline-none text-slate-50 text-[13px] placeholder:text-slate-600 font-sans"
-        />
-        <span className="font-mono text-[10px] text-slate-600 px-1 py-px border border-navy-700 rounded">⌘K</span>
-      </div>
 
       <div className={`flex items-center gap-2 px-2.5 py-1.5 bg-navy-900 border rounded-md ${dbOk ? 'border-navy-700' : 'border-semantic-danger/30'}`}>
         <span className="relative w-2 h-2 flex-shrink-0">
