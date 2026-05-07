@@ -4,7 +4,6 @@ import t from '@/lib/i18n'
 
 const tb = t.dashboard.topbar
 
-const BellIcon     = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
 const TelegramIcon = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 4L2 11l7 3 3 7 9-17z"/><path d="M9 14l4-4"/></svg>
 
 interface Props {
@@ -53,10 +52,6 @@ export default function TopBar({ dbOk, title, breadcrumb }: Props) {
         <TelegramIcon />
       </a>
 
-      <button className="relative bg-navy-900 border border-navy-700 rounded-md p-2 text-slate-400 cursor-pointer hover:bg-navy-800 transition-colors">
-        <BellIcon />
-        <span className="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-semantic-danger" />
-      </button>
     </header>
   )
 }

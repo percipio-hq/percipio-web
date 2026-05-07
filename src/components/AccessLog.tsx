@@ -99,7 +99,7 @@ export default function AccessLog() {
 
   return (
     <div className="flex h-screen bg-navy-950 text-slate-50 overflow-hidden">
-      <Sidebar targetCount={0} rfidToday={rfidToday} />
+      <Sidebar rfidToday={rfidToday} />
 
       <div className="flex flex-col flex-1 min-w-0">
         <TopBar dbOk={!error} title={al.title} breadcrumb={al.breadcrumb} />

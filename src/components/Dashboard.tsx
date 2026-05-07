@@ -95,7 +95,7 @@ export default function Dashboard() {
 
   return (
     <div className="flex h-screen bg-navy-950 text-slate-50 overflow-hidden">
-      <Sidebar targetCount={targetCount} rfidToday={entriesToday} />
+      <Sidebar rfidToday={entriesToday} />
 
       <div className="flex flex-col flex-1 min-w-0">
         <TopBar dbOk={dbOk} />

@@ -120,7 +120,7 @@ export default function Settings() {
 
   return (
     <div className="flex h-screen bg-navy-950 text-slate-50 overflow-hidden">
-      <Sidebar targetCount={0} rfidToday={0} />
+      <Sidebar rfidToday={0} />
 
       <div className="flex flex-col flex-1 min-w-0">
         <TopBar dbOk={true} title={s.title} breadcrumb={s.breadcrumb} />
