@@ -35,7 +35,7 @@ const NAV = [
   { id: 'overview', label: s.nav.overview, icon: navIcons.overview, href: '/' },
   { id: 'radar',    label: s.nav.radar,    icon: navIcons.radar,    href: null },
   { id: 'env',      label: s.nav.env,      icon: navIcons.env,      href: null },
-  { id: 'rfid',     label: s.nav.rfid,     icon: navIcons.rfid,     href: null },
+  { id: 'rfid',     label: s.nav.rfid,     icon: navIcons.rfid,     href: '/access-log' },
   { id: 'devices',  label: s.nav.devices,  icon: navIcons.device,   href: null },
   { id: 'settings', label: s.nav.settings, icon: navIcons.settings, href: '/settings' },
 ]
@@ -102,7 +102,7 @@ export default function Sidebar({ targetCount, rfidToday }: Props) {
 
       {NAV.map((item) => (
         <div key={item.id} className="relative">
-          <NavItem item={item} active={item.href === '/settings' ? pathname === '/settings' : (item.id === 'overview' && pathname !== '/settings')} />
+          <NavItem item={item} active={item.href ? pathname === item.href : (item.id === 'overview' && pathname === '/')} />
           {item.id === 'radar' && targetCount > 0 && (
             <span className="absolute right-2.5 top-1/2 -translate-y-1/2 font-mono text-[10px] bg-navy-800 text-slate-400 px-1.5 py-px rounded-full">
               {targetCount}
