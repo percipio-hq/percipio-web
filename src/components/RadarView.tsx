@@ -72,7 +72,6 @@ export default function RadarView({ targets }: Props) {
 
         {/* Room boundary */}
         <rect x="60" y="40" width="480" height="300" fill="none" stroke="var(--color-bg-border)" strokeWidth="1" strokeDasharray="4 6"/>
-        <text x="68" y="56" fontFamily="'Geist Mono', monospace" fontSize="10" fill="var(--color-text-muted)">{m.room_label}</text>
 
         {/* Range rings from sensor */}
         {[PX_PER_METER, PX_PER_METER * 2, PX_PER_METER * 3].map((ring, i) => (
@@ -94,7 +93,6 @@ export default function RadarView({ targets }: Props) {
         <g transform={`translate(${SENSOR_X}, ${SENSOR_Y})`}>
           <circle r="20" fill="none" stroke="var(--color-brand-dark)" strokeWidth="1" opacity="0.5"/>
           <circle r="6"  fill="var(--color-brand-dark)"/>
-          <text y="30" fontFamily="'Geist Mono', monospace" fontSize="9" fill="var(--color-text-secondary)" textAnchor="middle">{m.sensor_label}</text>
         </g>
 
         {/* Targets */}

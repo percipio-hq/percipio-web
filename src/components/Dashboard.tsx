@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useSensorReadings } from '@/lib/hooks/useSensorReadings'
 import { useRadarTargets } from '@/lib/hooks/useRadarTargets'
 import { useRfidEvents } from '@/lib/hooks/useRfidEvents'
@@ -22,6 +22,7 @@ import RfidLog from '@/components/RfidLog'
 const d = t.dashboard
 
 const ExpandIcon   = () => <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+const MinimizeIcon = () => <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M8 3v5H3M21 3l-7 7M16 21v-5h5M3 21l7-7"/></svg>
 const DownloadIcon = () => <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3v12M6 11l6 6 6-6M4 21h16"/></svg>
 const CpuIcon      = () => <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="6" y="6" width="12" height="12" rx="1.5"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/></svg>
 
@@ -33,8 +34,18 @@ export default function Dashboard() {
 
   const dbOk = !sensorError && !radarError && !rfidError
   const radarRef = useRef<HTMLDivElement>(null)
+  const [isFullscreen, setIsFullscreen] = useState(false)
 
-  const handleFullscreen = () => radarRef.current?.requestFullscreen()
+  useEffect(() => {
+    const handler = () => setIsFullscreen(!!document.fullscreenElement)
+    document.addEventListener('fullscreenchange', handler)
+    return () => document.removeEventListener('fullscreenchange', handler)
+  }, [])
+
+  const handleFullscreen = () => {
+    if (isFullscreen) document.exitFullscreen()
+    else radarRef.current?.requestFullscreen()
+  }
 
   const downloadCSV = () => {
     const rows = [
@@ -120,7 +131,7 @@ export default function Dashboard() {
               <Card
                 title={d.map.title}
                 subtitle={d.map.subtitle}
-                action={<PillButton onClick={handleFullscreen}><ExpandIcon /> {d.map.btn_fullscreen}</PillButton>}
+                action={<PillButton onClick={handleFullscreen}>{isFullscreen ? <><MinimizeIcon /> {d.map.btn_minimize}</> : <><ExpandIcon /> {d.map.btn_fullscreen}</>}</PillButton>}
                 noPad
               >
                 <RadarView targets={targets} />

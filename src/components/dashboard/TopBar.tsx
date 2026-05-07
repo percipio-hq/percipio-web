@@ -9,9 +9,11 @@ const TelegramIcon = () => <svg width="14" height="14" viewBox="0 0 24 24" fill=
 
 interface Props {
   dbOk: boolean
+  title?: string
+  breadcrumb?: string
 }
 
-export default function TopBar({ dbOk }: Props) {
+export default function TopBar({ dbOk, title, breadcrumb }: Props) {
   const [time, setTime] = useState('')
 
   useEffect(() => {
@@ -24,8 +26,8 @@ export default function TopBar({ dbOk }: Props) {
   return (
     <header className="h-[60px] flex-shrink-0 flex items-center px-6 gap-5 border-b border-navy-700 bg-navy-950">
       <div className="flex flex-col gap-0.5">
-        <div className="font-mono text-[10px] text-slate-600 tracking-[1.2px] uppercase">{tb.breadcrumb}</div>
-        <div className="text-[17px] font-medium text-slate-50 tracking-[-0.2px]">{tb.title}</div>
+        <div className="font-mono text-[10px] text-slate-600 tracking-[1.2px] uppercase">{breadcrumb ?? tb.breadcrumb}</div>
+        <div className="text-[17px] font-medium text-slate-50 tracking-[-0.2px]">{title ?? tb.title}</div>
       </div>
 
       <div className="flex-1" />

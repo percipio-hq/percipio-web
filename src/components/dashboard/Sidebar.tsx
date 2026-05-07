@@ -1,5 +1,7 @@
 "use client"
 import { useEffect, useRef, useState } from 'react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useAuth } from '@/context/AuthContext'
 import t from '@/lib/i18n'
 
@@ -30,26 +32,26 @@ const navIcons = {
 }
 
 const NAV = [
-  { id: 'overview', label: s.nav.overview, icon: navIcons.overview },
-  { id: 'radar',    label: s.nav.radar,    icon: navIcons.radar },
-  { id: 'env',      label: s.nav.env,      icon: navIcons.env },
-  { id: 'rfid',     label: s.nav.rfid,     icon: navIcons.rfid },
-  { id: 'devices',  label: s.nav.devices,  icon: navIcons.device },
-  { id: 'settings', label: s.nav.settings, icon: navIcons.settings },
+  { id: 'overview', label: s.nav.overview, icon: navIcons.overview, href: '/' },
+  { id: 'radar',    label: s.nav.radar,    icon: navIcons.radar,    href: null },
+  { id: 'env',      label: s.nav.env,      icon: navIcons.env,      href: null },
+  { id: 'rfid',     label: s.nav.rfid,     icon: navIcons.rfid,     href: null },
+  { id: 'devices',  label: s.nav.devices,  icon: navIcons.device,   href: null },
+  { id: 'settings', label: s.nav.settings, icon: navIcons.settings, href: '/settings' },
 ]
 
 function NavItem({ item, active }: { item: typeof NAV[0]; active: boolean }) {
-  return (
-    <button className={`relative flex items-center gap-2.5 w-full px-2.5 py-2 rounded-md text-[13px] text-left transition-colors cursor-pointer border-none
-      ${active
-        ? 'bg-teal-500/10 text-slate-50'
-        : 'bg-transparent text-slate-400 hover:bg-teal-500/5 hover:text-slate-300'}`}
-    >
+  const cls = `relative flex items-center gap-2.5 w-full px-2.5 py-2 rounded-md text-[13px] text-left transition-colors cursor-pointer
+    ${active ? 'bg-teal-500/10 text-slate-50' : 'bg-transparent text-slate-400 hover:bg-teal-500/5 hover:text-slate-300'}`
+  const inner = (
+    <>
       {active && <span className="absolute -left-[14px] top-2 bottom-2 w-0.5 bg-teal-500 rounded-sm" />}
       <span className={`flex ${active ? 'text-teal-400' : 'text-slate-600'}`}>{item.icon}</span>
       {item.label}
-    </button>
+    </>
   )
+  if (item.href) return <Link href={item.href} className={cls}>{inner}</Link>
+  return <button className={`${cls} border-none`}>{inner}</button>
 }
 
 interface Props {
@@ -59,6 +61,7 @@ interface Props {
 
 export default function Sidebar({ targetCount, rfidToday }: Props) {
   const { user, signOut, deleteAccount } = useAuth()
+  const pathname = usePathname()
   const [menuOpen, setMenuOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
 
@@ -99,7 +102,7 @@ export default function Sidebar({ targetCount, rfidToday }: Props) {
 
       {NAV.map((item) => (
         <div key={item.id} className="relative">
-          <NavItem item={item} active={item.id === 'overview'} />
+          <NavItem item={item} active={item.href === '/settings' ? pathname === '/settings' : (item.id === 'overview' && pathname !== '/settings')} />
           {item.id === 'radar' && targetCount > 0 && (
             <span className="absolute right-2.5 top-1/2 -translate-y-1/2 font-mono text-[10px] bg-navy-800 text-slate-400 px-1.5 py-px rounded-full">
               {targetCount}

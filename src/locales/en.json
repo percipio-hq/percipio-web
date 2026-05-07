@@ -117,7 +117,8 @@
       "no_targets":      "NO TARGETS DETECTED",
       "target_singular": "TARGET",
       "target_plural":   "TARGETS",
-      "btn_fullscreen":  "Fullscreen"
+      "btn_fullscreen":  "Fullscreen",
+      "btn_minimize":    "Minimize"
     },
     "env": {
       "title":        "Environment",
@@ -163,6 +164,31 @@
     "occupancy": {
       "title":    "Occupancy · 24h",
       "subtitle": "RFID entries per hour"
+    },
+    "settings": {
+      "breadcrumb":       "WORKSPACE / SETTINGS",
+      "title":            "Settings",
+      "section_account":  "Account",
+      "name_label":       "Display name",
+      "email_label":      "Email",
+      "save":             "Save changes",
+      "saved":            "Saved!",
+      "section_data":     "Data",
+      "data_warning":     "These actions delete all documents in the collection. They cannot be undone.",
+      "docs":             "docs",
+      "btn_clear":        "Clear",
+      "btn_clearing":     "…",
+      "btn_cleared":      "Cleared",
+      "col_radar_desc":   "LD2450 presence frames",
+      "col_sensor_desc":  "BME280 temperature · humidity · pressure",
+      "col_rfid_desc":    "MFRC522 card scan events",
+      "section_system":   "System",
+      "sys_firmware":     "Firmware",
+      "sys_web_build":    "Web build",
+      "sys_firestore":    "Firestore project",
+      "sys_firmware_val": "v0.4.2 · ESP32",
+      "sys_web_build_val":"next-14.2 · 2026-05-07",
+      "section_danger":   "Account actions"
     }
   },
   "radar": {

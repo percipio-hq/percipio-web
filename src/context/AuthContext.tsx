@@ -25,6 +25,7 @@ interface AuthContextValue {
   register: (email: string, password: string, displayName: string) => Promise<void>
   signOut: () => Promise<void>
   deleteAccount: () => Promise<void>
+  updateDisplayName: (name: string) => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null)
@@ -62,8 +63,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await deleteUser(auth.currentUser)
   }
 
+  const updateDisplayName = async (name: string) => {
+    if (!auth.currentUser) return
+    await updateProfile(auth.currentUser, { displayName: name })
+    setUser(toAuthUser(auth.currentUser))
+  }
+
   return (
-    <AuthContext.Provider value={{ user, loading, signIn, register, signOut, deleteAccount }}>
+    <AuthContext.Provider value={{ user, loading, signIn, register, signOut, deleteAccount, updateDisplayName }}>
       {children}
     </AuthContext.Provider>
   )
