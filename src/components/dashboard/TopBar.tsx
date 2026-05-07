@@ -42,9 +42,14 @@ export default function TopBar({ dbOk }: Props) {
 
       <div className="font-mono text-[12px] text-slate-400 tabular-nums tracking-[0.5px]">{time}</div>
 
-      <button className="bg-navy-900 border border-navy-700 rounded-md p-2 text-semantic-info cursor-pointer hover:bg-navy-800 transition-colors">
+      <a
+        href="https://t.me/Percipio_bot"
+        target="_blank"
+        rel="noreferrer"
+        className="bg-navy-900 border border-navy-700 rounded-md p-2 text-semantic-info cursor-pointer hover:bg-navy-800 transition-colors flex items-center"
+      >
         <TelegramIcon />
-      </button>
+      </a>
 
       <button className="relative bg-navy-900 border border-navy-700 rounded-md p-2 text-slate-400 cursor-pointer hover:bg-navy-800 transition-colors">
         <BellIcon />

@@ -23,7 +23,6 @@ const d = t.dashboard
 
 const ExpandIcon   = () => <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
 const DownloadIcon = () => <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3v12M6 11l6 6 6-6M4 21h16"/></svg>
-const FilterIcon   = () => <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 5h18l-7 9v6l-4-2v-4z"/></svg>
 const CpuIcon      = () => <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="6" y="6" width="12" height="12" rx="1.5"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/></svg>
 
 export default function Dashboard() {
@@ -49,6 +48,22 @@ export default function Dashboard() {
     const a = document.createElement('a')
     a.href = url
     a.download = `percipio-env-${new Date().toISOString().slice(0, 10)}.csv`
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
+  const downloadRfidCSV = () => {
+    const rows = [
+      'Time,Card UID,Name,Authorized',
+      ...events.map((e) =>
+        `${e.created_at.toISOString()},${e.card_uid},${e.card_name},${e.authorized}`
+      ),
+    ]
+    const blob = new Blob([rows.join('\n')], { type: 'text/csv' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `percipio-rfid-${new Date().toISOString().slice(0, 10)}.csv`
     a.click()
     URL.revokeObjectURL(url)
   }
@@ -121,7 +136,6 @@ export default function Dashboard() {
             <Card
               title={d.telegram.title}
               subtitle={d.telegram.subtitle}
-              action={<PillButton><FilterIcon /> {d.telegram.btn_filter}</PillButton>}
             >
               <TelegramStream />
             </Card>
@@ -148,7 +162,7 @@ export default function Dashboard() {
             <Card
               title={d.rfid.title}
               subtitle={d.rfid.subtitle}
-              action={<PillButton><DownloadIcon /> {d.rfid.btn_export}</PillButton>}
+              action={<PillButton onClick={downloadRfidCSV}><DownloadIcon /> {d.rfid.btn_export}</PillButton>}
             >
               <RfidLog events={events} />
             </Card>
