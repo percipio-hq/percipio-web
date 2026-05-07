@@ -90,7 +90,7 @@ export default function Dashboard() {
         <TopBar dbOk={dbOk} />
 
         <main className="flex-1 overflow-auto p-[22px] flex flex-col gap-4">
-          <div className="grid grid-cols-4 gap-3.5">
+          <div className="grid grid-cols-3 gap-3.5">
             <KPITile
               label={d.kpi.occupancy}
               value={targetCount}
@@ -112,13 +112,6 @@ export default function Dashboard() {
               unit={d.kpi.unit_celsius}
               spark={tempSpark}
               color="var(--color-warning)"
-            />
-            <KPITile
-              label={d.kpi.uptime}
-              value="99.8"
-              unit={d.kpi.unit_percent}
-              spark={[100, 99.9, 100, 99.8, 99.9, 99.8]}
-              color="var(--color-info)"
             />
           </div>
 
