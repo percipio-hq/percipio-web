@@ -37,19 +37,24 @@ async function seed() {
   }
   console.log(`✓ sensor_readings — ${sensorData.length} docs`);
 
-  // radar_targets
+  // radar_targets — x/y in millimeters, as the real LD2450 outputs
+  // hook divides by 1000 → metres before passing to RadarView
+  // Room: 6.0×4.0m. Sensor at bottom centre (0,0). Y+ = forward, X+ = right.
   const radarData = [
     {
-      created_at: minutesAgo(10),
+      created_at: minutesAgo(5),
       target_count: 1,
-      targets: [{ x: 0.5, y: 1.2, speed: 0.0 }],
+      targets: [
+        { x:  500, y: 1500, speed:   0 },   // 0.5m right, 1.5m forward — stationary
+      ],
     },
     {
       created_at: minutesAgo(0),
-      target_count: 2,
+      target_count: 3,
       targets: [
-        { x: 1.2, y: 0.8, speed: 0.3 },
-        { x: -0.5, y: 1.5, speed: 0.0 },
+        { x:  500, y: 1500, speed:   0 },   // 0.5m right, 1.5m forward — stationary (desk)
+        { x: -1200, y: 2800, speed: 120 },   // 1.2m left,  2.8m forward — walking (120 mm/s)
+        { x:  1800, y: 3200, speed:   0 },   // 1.8m right, 3.2m forward — stationary (back desk)
       ],
     },
   ];
