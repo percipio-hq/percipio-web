@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { Metadata } from 'next'
 import GuestGuard from '@/components/auth/GuestGuard'
 import AuthFormPane from '@/components/auth/AuthFormPane'

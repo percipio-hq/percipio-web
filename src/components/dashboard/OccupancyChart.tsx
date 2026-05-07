@@ -1,4 +1,3 @@
-import t from '@/lib/i18n'
 import type { RfidEventView } from '@/lib/hooks/useRfidEvents'
 
 interface Props {

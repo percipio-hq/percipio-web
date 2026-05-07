@@ -4,6 +4,7 @@ import { useMemo, useRef } from 'react'
 import { useSensorReadings } from '@/lib/hooks/useSensorReadings'
 import { useRadarTargets } from '@/lib/hooks/useRadarTargets'
 import { useRfidEvents } from '@/lib/hooks/useRfidEvents'
+import { useTelegramNotifier } from '@/lib/hooks/useTelegramNotifier'
 import t from '@/lib/i18n'
 
 import Sidebar from '@/components/dashboard/Sidebar'
@@ -29,6 +30,7 @@ export default function Dashboard() {
   const { readings, error: sensorError } = useSensorReadings()
   const { targets, targetCount, error: radarError } = useRadarTargets()
   const { events, error: rfidError } = useRfidEvents(50)
+  useTelegramNotifier()
 
   const dbOk = !sensorError && !radarError && !rfidError
   const radarRef = useRef<HTMLDivElement>(null)
